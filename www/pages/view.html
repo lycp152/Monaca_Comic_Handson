@@ -64,7 +64,12 @@
 		// ファイルストアからデータを取得する関数
 		const getPage = async () => {
 			// 1. ファイル名のキーで検索
+            const files = await ncmb.File
+                .regularExpressionTo('fileName', `^${key}.*`)
+                .order('fileName', false)
+                .fetchAll();
 			// 2. 写真データをblob形式でダウンロード
+            const promises = files.map(f => ncmb.File.download(f.fileName, 'blob'));
 			// Promiseで処理を返す
 			return Promise.all(promises);
 		};

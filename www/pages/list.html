@@ -23,6 +23,10 @@
     // DOMがマウントされたタイミングで実行
     $onMounted(async () => {
       // 1. コミックデータを取得する
+      const Comic = ncmb.DataStore('Comic');
+      comics = await Comic
+		.order('title')
+		.fetchAll();
       // 取得したら表示更新
       $update();
     });
